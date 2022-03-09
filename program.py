@@ -1,5 +1,3 @@
-from cgitb import Hook
-import mysql.connector
 import setup
 
 USER = 'root'
@@ -12,10 +10,7 @@ DB_MEMBER_TABLE = 'members'
 DB_REVIEW_TABLE = 'reviews'
 
 
-setup.create_database(USER, PASSWORD, HOST, DB_NAME)
-
-cnx = mysql.connector.connect(user=USER, password=PASSWORD,
-                              host=HOST, database=DB_NAME)
+cnx = setup.connect_database(USER, PASSWORD, HOST, DB_NAME)
 cursor = cnx.cursor()
 
 setup.drop_table(cursor, DB_BOOK_TABLE)
