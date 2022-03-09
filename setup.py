@@ -4,6 +4,7 @@ import parsefiles
 def create_database(cursor, DB_NAME):
     try:
         cursor.execute("CREATE DATABASE IF NOT EXISTS {} DEFAULT CHARACTER SET 'utf8'".format(DB_NAME))
+        cursor.execute("USE {}".format(DB_NAME))
     except mysql.connector.Error as err:
         print("Faild to create database {}".format(err))
         exit(1)
