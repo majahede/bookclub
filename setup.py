@@ -34,7 +34,8 @@ def create_members_table(cursor):
 
 def create_reviews_table(cursor):
     try: 
-      cursor.execute("CREATE TABLE reviews (review_id int not null, member_id int, book_id int, stars int, primary key(review_id))")
+      cursor.execute(
+          "CREATE TABLE reviews (member_id int not null, book_id int not null, rating int, primary key(member_id, book_id))")
     except mysql.connector.Error as err:
         print("Faild to create table {}".format(err))
         exit(1)
@@ -56,7 +57,7 @@ def insert_members(cursor):
 
 def insert_reviews(cursor):
     try: 
-      cursor.executemany("INSERT INTO reviews (`review_id`, `member_id` ,`book_id`,`stars`) values (%s, %s, %s, %s)", parsefiles.parse_reviews_csv())
+      cursor.executemany("INSERT INTO reviews (`member_id` ,`book_id`,`rating`) values (%s, %s, %s)", parsefiles.parse_reviews_csv())
     except mysql.connector.Error as err:
         print("Faild to insert {}".format(err))
         exit(1)

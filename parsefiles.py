@@ -26,6 +26,6 @@ def parse_reviews_csv():
   next(reviews_data)
   all_reviews = []
   for row in reviews_data:
-    value = [row[0], row[1], row[2],  row[3]]
+    value = [row[0], row[1], row[2]]
     all_reviews.append(value)
   return all_reviews
