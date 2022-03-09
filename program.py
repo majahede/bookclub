@@ -10,7 +10,6 @@ DB_BOOK_TABLE = 'books'
 DB_MEMBER_TABLE = 'members'
 DB_REVIEW_TABLE = 'reviews'
 
-
 cnx = setup.connect_database(USER, PASSWORD, HOST, DB_NAME)
 cursor = cnx.cursor()
 

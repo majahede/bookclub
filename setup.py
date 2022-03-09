@@ -1,4 +1,5 @@
 import mysql.connector
+from mysql.connector import errorcode
 import parsefiles
 
 
@@ -9,17 +10,26 @@ def connect_database(user, password, host, db_name):
     try:
         cursor.execute("USE {}".format(db_name))
     except mysql.connector.Error as err:
-        print("{}. Creating database...".format(err))
+        if is_not_database_missing_error(err):
+            print("Failed to connect {}".format(err))
+            exit(1)
+
+        print("Database does not exist. Creating new database...")
         create_database(cursor, db_name)
         cursor.execute("USE {}".format(db_name))
 
     return cnx
 
 
+def is_not_database_missing_error(err):
+    return err.errno != errorcode.ER_BAD_DB_ERROR
+
+
 def create_database(cursor, db_name):
     try:
         cursor.execute(
             "CREATE DATABASE IF NOT EXISTS {} DEFAULT CHARACTER SET 'utf8'".format(db_name))
+        print("Database '{}' was created succesfully.".format(db_name))
     except mysql.connector.Error as err:
         print("Faild to create database {}".format(err))
         exit(1)
