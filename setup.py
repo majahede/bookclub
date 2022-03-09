@@ -1,9 +1,12 @@
 import mysql.connector
 import parsefiles
 
-def create_database(cursor, DB_NAME):
+
+def create_database(user, password, host, db_name):
     try:
-        cursor.execute("CREATE DATABASE IF NOT EXISTS {} DEFAULT CHARACTER SET 'utf8'".format(DB_NAME))
+        cnx = mysql.connector.connect(user=user, password=password, host=host)
+        cursor = cnx.cursor()
+        cursor.execute("CREATE DATABASE IF NOT EXISTS {} DEFAULT CHARACTER SET 'utf8'".format(db_name))
     except mysql.connector.Error as err:
         print("Faild to create database {}".format(err))
         exit(1)
