@@ -4,8 +4,12 @@ import parsefiles
 
 
 def connect_database(user, password, host, db_name):
-    cnx = mysql.connector.connect(user=user, password=password, host=host)
-    cursor = cnx.cursor()
+    try:
+        cnx = mysql.connector.connect(user=user, password=password, host=host)
+        cursor = cnx.cursor()
+    except mysql.connector.Error as err:
+        print("Failed to connect {}".format(err))
+        exit(1)
 
     try:
         cursor.execute("USE {}".format(db_name))
