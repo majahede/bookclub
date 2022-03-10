@@ -1,5 +1,5 @@
 import setup
-
+import menu
 
 USER = 'root'
 PASSWORD = 'root'
@@ -9,6 +9,9 @@ DB_NAME = 'bookclub'
 DB_BOOK_TABLE = 'books'
 DB_MEMBER_TABLE = 'members'
 DB_REVIEW_TABLE = 'reviews'
+
+run_app = True
+
 
 cnx = setup.connect_database(USER, PASSWORD, HOST, DB_NAME)
 cursor = cnx.cursor()
@@ -26,6 +29,9 @@ setup.insert_members(cursor)
 setup.insert_reviews(cursor)
 
 cnx.commit()
+
+while (run_app):
+    run_app = menu.run()
 
 
 # list_books()
