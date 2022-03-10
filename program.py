@@ -32,13 +32,3 @@ cnx.commit()
 
 while (run_app):
     run_app = menu.run(cursor)
-
-
-# list_books()
-# average_rating()
-# list_books_from_author()
-# books_by_year()
-# average_age()
-# average_age_by_city()
-# author_reviews()
-# join()

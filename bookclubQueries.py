@@ -38,19 +38,6 @@ def books_by_year(cursor):
     for x in cursor:
         print(x[0], x[1])
 
-
-def average_age(cursor):
-    cursor.execute("SELECT AVG(age) FROM members")
-    for x in cursor:
-        print(x[0])
-
-
-def average_age_by_city(cursor):
-    cursor.execute("SELECT city, AVG(age) FROM members GROUP BY city")
-    for x in cursor:
-        print(x[0], x[1])
-
-
 def author_reviews(cursor):
     cursor.execute("SELECT members.name, reviews.stars, books.title from members, reviews, books WHERE books.book_id = reviews.book_id and reviews.member_id = members.member_id and books.author = 'Lovell Norman'")
     for x in cursor:
@@ -62,3 +49,17 @@ def join(cursor):
         "SELECT members.name, reviews.stars from members JOIN reviews on members.member_id = reviews.member_id")
     for x in cursor:
         print(x)
+
+
+def author_view(cursor, author):
+    cursor.execute("DROP VIEW IF EXISTS author")
+    cursor.execute(
+        "Create view author as select title, year from books where author ='{}'".format(author))
+    cursor.execute("select * from author")
+    print(author)
+    print("-"*60)
+    print("| {:<35} |  {}".format(
+        "title", "year"))
+    print("-"*60)
+    for (title, year) in cursor:
+        print("| {:<35} |  {}".format(title,  year))
