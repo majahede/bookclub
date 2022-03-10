@@ -31,7 +31,6 @@ def main_menu(cursor):
         wait_for_enter()
     elif user_input == "8":
         all_books_from_author_view(cursor)
-        wait_for_enter()
 
     return True
 
