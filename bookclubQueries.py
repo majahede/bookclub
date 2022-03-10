@@ -55,8 +55,8 @@ def average_rating_book(cursor, book):
 def author_view(cursor, author):
     cursor.execute("DROP VIEW IF EXISTS author")
     cursor.execute(
-        "Create view author as select title, year from books where author ='{}'".format(author))
-    cursor.execute("select * from author")
+        "CREATE VIEW author as SELECT title, year from books WHERE author ='{}'".format(author))
+    cursor.execute("SELECT * from author")
     print(author)
     print("-"*60)
     print("| {:<35} |  {}".format(
