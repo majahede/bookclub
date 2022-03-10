@@ -11,15 +11,18 @@ def list_books(cursor):
 
 
 def list_books_from_author(cursor, author):
-    cursor.execute("SELECT * from books WHERE author='{}'".format(author))
+    cursor.execute("SELECT book_id, title, genre, publisher, year from books WHERE author='{}'".format(author))
     
-    print("| {:<5} | {:<35} | {:<25} | {:<25} | {:<10} | {}".format(
-        "id", "title", "author", "genre", "publisher", "year"))
+    print(author)
+    print("-"*124)
+    
+    print("| {:<5} | {:<35} | {:<25} | {:<10} | {}".format(
+        "id", "title", "genre", "publisher", "year"))
     print("-"*124)
 
-    for (book_id, title, author, genre, publisher, year) in cursor:
-        print("| {:<5} | {:<35} | {:<25} | {:<25} | {:<10} |  {}".format(
-            book_id, title, author, genre, publisher, year))
+    for (book_id, title, genre, publisher, year) in cursor:
+        print("| {:<5} | {:<35} | {:<25} | {:<10} |  {}".format(
+            book_id, title, genre, publisher, year))
 
 
 def average_rating(cursor):
