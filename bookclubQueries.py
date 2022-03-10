@@ -25,11 +25,12 @@ def list_books_from_author(cursor, author):
             book_id, title, genre, publisher, year))
 
 
-def average_rating(cursor):
+def average_rating_book(cursor, book):
     cursor.execute(
-        "SELECT title, AVG(stars) from books, reviews WHERE title = 'The Face of the Phoenix' ")
-    for x in cursor:
-        print(x[0] + " has the average rating of ", x[1])
+        "SELECT books.title, AVG(reviews.rating) from books JOIN reviews on books.book_id = reviews.book_id WHERE title='{}'".format(book))
+    print("-"*60)
+    for (title, rating) in cursor:
+      print("{} has an average rating of {}".format(title, round(rating, 1)))
 
 
 def books_by_year(cursor):
@@ -46,7 +47,7 @@ def author_reviews(cursor):
 
 def join(cursor):
     cursor.execute(
-        "SELECT members.name, reviews.stars from members JOIN reviews on members.member_id = reviews.member_id")
+        "SELECT members.name, reviews.rating from members JOIN reviews on members.member_id = reviews.member_id")
     for x in cursor:
         print(x)
 

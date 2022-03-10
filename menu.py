@@ -16,10 +16,9 @@ def main_menu(cursor):
     elif user_input == "2":
         all_books_from_author(cursor)
     elif user_input == "3":
-        print("\nAverage rating for writer")
-        wait_for_enter()
+        average_rating_for_book(cursor)
     elif user_input == "4":
-        print("\nAverage rating for book")
+        print("\nAverage rating for writer")
         wait_for_enter()
     elif user_input == "5":
         print("\nMost popular book in city")
@@ -63,6 +62,11 @@ def all_books_from_author(cursor):
     author = get_user_input("\nName of author")
     print("\n")
     bookclubQueries.list_books_from_author(cursor, author)
+    wait_for_enter()
+
+def average_rating_for_book(cursor):
+    book = get_user_input("\nBook title")
+    bookclubQueries.average_rating_book(cursor, book)
     wait_for_enter()
 
 
