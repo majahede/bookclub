@@ -3,7 +3,8 @@ import mysql.connector
 
 
 def list_books(cursor):
-    cursor.execute("SELECT * from books")
+    cursor.execute("""SELECT * 
+                      FROM books""")
     
     print("| {:<5} | {:<35} | {:<25} | {:<25} | {:<10} | {}".format(
         "id", "title", "author", "genre", "publisher", "year"))
@@ -15,7 +16,9 @@ def list_books(cursor):
 
 
 def list_books_from_author(cursor, author):
-    cursor.execute("SELECT book_id, title, genre, publisher, year from books WHERE author='{}'".format(author))
+    cursor.execute("""SELECT book_id, title, genre, publisher, year 
+                      FROM books 
+                      WHERE author='{}'""".format(author))
     
     print(author)
     print("-"*124)
@@ -31,7 +34,11 @@ def list_books_from_author(cursor, author):
 
 def average_rating_book(cursor, book):    
     cursor.execute(
-        "SELECT books.title, AVG(reviews.rating) from books JOIN reviews on books.book_id = reviews.book_id WHERE title='{}'".format(book))
+        """SELECT books.title, AVG(reviews.rating) 
+           FROM books 
+           JOIN reviews on books.book_id = reviews.book_id 
+           WHERE title='{}'""".format(book))
+
     print("-"*60)
     
     for (title, rating) in cursor:
@@ -63,8 +70,13 @@ def average_rating_book(cursor, book):
 def author_view(cursor, author):
     cursor.execute("DROP VIEW IF EXISTS author")
     cursor.execute(
-        "CREATE VIEW author as SELECT title, year from books WHERE author ='{}'".format(author))
-    cursor.execute("SELECT * from author")
+        """CREATE VIEW author as SELECT title, year 
+           FROM books 
+           WHERE author ='{}'""".format(author))
+
+    cursor.execute("""SELECT * 
+                      FROM author""")
+
     print(author)
     print("-"*60)
     print("| {:<35} |  {}".format(
