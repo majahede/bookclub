@@ -1,3 +1,7 @@
+from inspect import Traceback
+import mysql.connector
+
+
 def list_books(cursor):
     cursor.execute("SELECT * from books")
     
@@ -25,14 +29,18 @@ def list_books_from_author(cursor, author):
             book_id, title, genre, publisher, year))
 
 
-def average_rating_book(cursor, book):
+def average_rating_book(cursor, book):    
     cursor.execute(
         "SELECT books.title, AVG(reviews.rating) from books JOIN reviews on books.book_id = reviews.book_id WHERE title='{}'".format(book))
     print("-"*60)
+    
     for (title, rating) in cursor:
-      print("{} has an average rating of {}".format(title, round(rating, 1)))
-
-
+        if title == None:
+            print("The book does not exist!")
+            return
+        print("{} has an average rating of {}".format(title, round(rating, 1)))
+    
+        
 # def books_by_year(cursor):
 #     cursor.execute(
 #         "SELECT title, year from books WHERE year > 2015 ORDER BY year DESC")
