@@ -33,23 +33,23 @@ def average_rating_book(cursor, book):
       print("{} has an average rating of {}".format(title, round(rating, 1)))
 
 
-def books_by_year(cursor):
-    cursor.execute(
-        "SELECT title, year from books WHERE year > 2015 ORDER BY year DESC")
-    for x in cursor:
-        print(x[0], x[1])
+# def books_by_year(cursor):
+#     cursor.execute(
+#         "SELECT title, year from books WHERE year > 2015 ORDER BY year DESC")
+#     for x in cursor:
+#         print(x[0], x[1])
 
-def author_reviews(cursor):
-    cursor.execute("SELECT members.name, reviews.stars, books.title from members, reviews, books WHERE books.book_id = reviews.book_id and reviews.member_id = members.member_id and books.author = 'Lovell Norman'")
-    for x in cursor:
-        print(x[0], x[1], x[2])
+# def author_reviews(cursor):
+#     cursor.execute("SELECT members.name, reviews.stars, books.title from members, reviews, books WHERE books.book_id = reviews.book_id and reviews.member_id = members.member_id and books.author = 'Lovell Norman'")
+#     for x in cursor:
+#         print(x[0], x[1], x[2])
 
 
-def join(cursor):
-    cursor.execute(
-        "SELECT members.name, reviews.rating from members JOIN reviews on members.member_id = reviews.member_id")
-    for x in cursor:
-        print(x)
+# def join(cursor):
+#     cursor.execute(
+#         "SELECT members.name, reviews.rating from members JOIN reviews on members.member_id = reviews.member_id")
+#     for x in cursor:
+#         print(x)
 
 
 def author_view(cursor, author):
