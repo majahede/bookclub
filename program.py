@@ -31,7 +31,7 @@ setup.insert_reviews(cursor)
 cnx.commit()
 
 while (run_app):
-    run_app = menu.run()
+    run_app = menu.run(cursor)
 
 
 # list_books()

@@ -1,13 +1,25 @@
 def list_books(cursor):
     cursor.execute("SELECT * from books")
-    for x in cursor:
-        print(x)
+    
+    print("| {:<5} | {:<35} | {:<25} | {:<25} | {:<10} | {}".format(
+        "id", "title", "author", "genre", "publisher", "year"))
+    print("-"*124)
+
+    for (book_id, title, author, genre, publisher, year) in cursor:
+        print("| {:<5} | {:<35} | {:<25} | {:<25} | {:<10} |  {}".format(
+            book_id, title, author, genre, publisher, year))
 
 
-def list_books_from_author(cursor):
-    cursor.execute("SELECT title from books WHERE author='Lovell Norman'")
-    for x in cursor:
-        print(x[0])
+def list_books_from_author(cursor, author):
+    cursor.execute("SELECT * from books WHERE author='{}'".format(author))
+    
+    print("| {:<5} | {:<35} | {:<25} | {:<25} | {:<10} | {}".format(
+        "id", "title", "author", "genre", "publisher", "year"))
+    print("-"*124)
+
+    for (book_id, title, author, genre, publisher, year) in cursor:
+        print("| {:<5} | {:<35} | {:<25} | {:<25} | {:<10} |  {}".format(
+            book_id, title, author, genre, publisher, year))
 
 
 def average_rating(cursor):
