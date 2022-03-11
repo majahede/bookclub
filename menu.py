@@ -18,7 +18,7 @@ def main_menu(cursor):
     elif user_input == "3":
         average_rating_for_book(cursor)
     elif user_input == "4":
-        print("\nAverage rating for writer")
+        print("\nList all writers in order by average rating")
         wait_for_enter()
     elif user_input == "5":
         print("\nMost popular book in city")
