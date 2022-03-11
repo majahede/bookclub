@@ -106,6 +106,23 @@ def fetch_popular_book(selector, city, where):
             {}
             """.format(selector, city, where)
 
+def list_member_by_reviews(cursor):
+    cursor.execute(
+        """SELECT members.name, COUNT(reviews.rating)
+           FROM reviews
+           JOIN members on reviews.member_id = members.member_id
+           GROUP BY reviews.member_id
+           Order BY COUNT(reviews.rating) DESC 
+           """)
+
+    print("-"*60)
+    print("| {:<30} | {}".format(
+        "Name", "Number of books reviewed"))
+    print("-"*60)
+
+    for x in cursor:
+        print("| {:<30} | {}".format(
+            x[0], x[1]))
 
 # def books_by_year(cursor):
 #     cursor.execute(
@@ -119,11 +136,7 @@ def fetch_popular_book(selector, city, where):
 #         print(x[0], x[1], x[2])
 
 
-# def join(cursor):
-#     cursor.execute(
-#         "SELECT members.name, reviews.rating from members JOIN reviews on members.member_id = reviews.member_id")
-#     for x in cursor:
-#         print(x)
+
 
 
 def author_view(cursor, author):

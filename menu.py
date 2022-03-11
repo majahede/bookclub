@@ -22,8 +22,7 @@ def main_menu(cursor):
     elif user_input == "5":
         most_popular_book(cursor)
     elif user_input == "6":
-        print("\nMember who made most reviews")
-        wait_for_enter()
+        all_members_ordered_by_review(cursor)
     elif user_input == "7":
         print("\nSee all books you have reviewed")
         wait_for_enter()
@@ -39,7 +38,7 @@ def print_menu():
     print("[3] Average rating for book")
     print("[4] Average rating for writer")
     print("[5] Most popular book in city")
-    print("[6] Member who made most reviews")
+    print("[6] List all members by books reviewed")
     print("[7] See all books you have reviewed")
     print("[8] List books from author (view)")
     print("\n[Q] Quit")
@@ -78,6 +77,11 @@ def most_popular_book(cursor):
     city = get_user_input("\nName of city")
     print("\n")
     bookclubQueries.most_popular_book(cursor, city)
+    wait_for_enter()
+
+def all_members_ordered_by_review(cursor):
+    print("\n")
+    bookclubQueries.list_member_by_reviews(cursor)
     wait_for_enter()
 
 
