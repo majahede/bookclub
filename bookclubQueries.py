@@ -61,49 +61,15 @@ def average_rating_writer(cursor, author):
 
 
 def most_popular_book(cursor, city):
-    cursor.execute(
-        """  
-            SELECT MAX(avg)
-            FROM (
-                SELECT 
-                    books.title,
-                    AVG(reviews.rating) as avg
-                FROM
-                    books
-                JOIN reviews
-                    ON books.book_id = reviews.book_id
-                JOIN members
-                    ON reviews.member_id = members.member_id
-                WHERE city = '{}'
-                GROUP BY books.title
-                ORDER BY avg DESC
-            ) tmp
-        """.format(city))    
+    cursor.execute(fetch_popular_book("MAX(avg)", city, ""))
 
     max_avg = 0
     for (rating) in cursor:
         max_avg = rating[0]
     
     if max_avg != None:
-        cursor.execute(
-            """  
-                SELECT *
-                FROM (
-                    SELECT 
-                        books.title,
-                        AVG(reviews.rating) as avg
-                    FROM
-                        books
-                    JOIN reviews
-                        ON books.book_id = reviews.book_id
-                    JOIN members
-                        ON reviews.member_id = members.member_id
-                    WHERE city = '{}'
-                    GROUP BY books.title
-                    ORDER BY avg DESC
-                ) tmp
-                WHERE avg >= {}
-            """.format(city, max_avg))
+        cursor.execute(fetch_popular_book(
+            "*", city, "WHERE avg >= {}".format(max_avg)))
 
     if max_avg != None:
         print("| Most popular book[s] in {}".format(city))
@@ -118,6 +84,27 @@ def most_popular_book(cursor, city):
                 title, rating))
     else:
         print("No books found!")
+
+
+def fetch_popular_book(selector, city, where):
+    return """
+            SELECT {}
+            FROM (
+                SELECT 
+                    books.title,
+                    AVG(reviews.rating) as avg
+                FROM
+                    books
+                JOIN reviews
+                    ON books.book_id = reviews.book_id
+                JOIN members
+                    ON reviews.member_id = members.member_id
+                WHERE city = '{}'
+                GROUP BY books.title
+                ORDER BY avg DESC
+            ) tmp
+            {}
+            """.format(selector, city, where)
 
 
 # def books_by_year(cursor):
