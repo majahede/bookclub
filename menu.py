@@ -24,8 +24,7 @@ def main_menu(cursor):
     elif user_input == "6":
         all_members_ordered_by_review(cursor)
     elif user_input == "7":
-        print("\nSee all books you have reviewed")
-        wait_for_enter()
+        all_members_books(cursor)
     elif user_input == "8":
         all_books_from_author_view(cursor)
 
@@ -89,6 +88,13 @@ def all_books_from_author_view(cursor):
     author = get_user_input("\nName of author")
     print("\n")
     bookclubQueries.author_view(cursor, author)
+    wait_for_enter()
+
+
+def all_members_books(cursor):
+    member = get_user_input("\nEnter member name")
+    print("\n")
+    bookclubQueries.list_members_books(cursor, member)
     wait_for_enter()
 
 

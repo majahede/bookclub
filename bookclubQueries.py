@@ -124,19 +124,26 @@ def list_member_by_reviews(cursor):
         print("| {:<30} | {}".format(
             x[0], x[1]))
 
-# def books_by_year(cursor):
-#     cursor.execute(
-#         "SELECT title, year from books WHERE year > 2015 ORDER BY year DESC")
-#     for x in cursor:
-#         print(x[0], x[1])
 
-# def author_reviews(cursor):
-#     cursor.execute("SELECT members.name, reviews.stars, books.title from members, reviews, books WHERE books.book_id = reviews.book_id and reviews.member_id = members.member_id and books.author = 'Lovell Norman'")
-#     for x in cursor:
-#         print(x[0], x[1], x[2])
+def list_members_books(cursor, member):
+    cursor.execute(
+        """SELECT books.title, books.author
+           FROM books
+           JOIN reviews on reviews.book_id = books.book_id
+           JOIN members on members.member_id = reviews.member_id
+           WHERE members.name = '{}'
+           """.format(member))
+    
+    print("| Books reviewed by {}".format(member))
+    print("-"*80)
 
+    print("| {:<40} | {}".format(
+        "Title", "Author"))
+    print("-"*80)
 
-
+    for (title, author) in cursor:
+        print("| {:<40} | {}".format(
+            title, author))
 
 
 def author_view(cursor, author):
