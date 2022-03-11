@@ -62,26 +62,62 @@ def average_rating_writer(cursor, author):
 
 def most_popular_book(cursor, city):
     cursor.execute(
-        """          
-            SELECT 
-                books.title,
-                AVG(reviews.rating) as avg
-            FROM
-                books
-            JOIN reviews
-                ON books.book_id = reviews.book_id
-            JOIN members
-                ON reviews.member_id = members.member_id
-            WHERE city = '{}'
-            GROUP BY books.title
-            ORDER BY avg DESC
-            LIMIT 1
-        """.format(city))
+        """  
+            SELECT MAX(avg)
+            FROM (
+                SELECT 
+                    books.title,
+                    AVG(reviews.rating) as avg
+                FROM
+                    books
+                JOIN reviews
+                    ON books.book_id = reviews.book_id
+                JOIN members
+                    ON reviews.member_id = members.member_id
+                WHERE city = '{}'
+                GROUP BY books.title
+                ORDER BY avg DESC
+            ) tmp
+        """.format(city))    
 
-    print("-"*60)
-
+    max_avg = 0
     for (rating) in cursor:
-        print("{}".format(rating[0]))
+        max_avg = rating[0]
+    
+    if max_avg != None:
+        cursor.execute(
+            """  
+                SELECT *
+                FROM (
+                    SELECT 
+                        books.title,
+                        AVG(reviews.rating) as avg
+                    FROM
+                        books
+                    JOIN reviews
+                        ON books.book_id = reviews.book_id
+                    JOIN members
+                        ON reviews.member_id = members.member_id
+                    WHERE city = '{}'
+                    GROUP BY books.title
+                    ORDER BY avg DESC
+                ) tmp
+                WHERE avg >= {}
+            """.format(city, max_avg))
+
+    if max_avg != None:
+        print("| Most popular book[s] in {}".format(city))
+        print("-"*60)
+
+        print("| {:<40} | {}".format(
+            "Title", "Average rating"))
+        print("-"*60)
+
+        for (title, rating) in cursor:
+            print("| {:<40} | {}".format(
+                title, rating))
+    else:
+        print("No books found!")
 
 
 # def books_by_year(cursor):
