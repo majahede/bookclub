@@ -1,11 +1,7 @@
-from inspect import Traceback
-import mysql.connector
-
-
 def list_books(cursor):
     cursor.execute("""SELECT * 
                       FROM books""")
-    
+
     print("| {:<5} | {:<35} | {:<25} | {:<25} | {:<10} | {}".format(
         "id", "title", "author", "genre", "publisher", "year"))
     print("-"*124)
@@ -19,10 +15,10 @@ def list_books_from_author(cursor, author):
     cursor.execute("""SELECT book_id, title, genre, publisher, year 
                       FROM books 
                       WHERE author='{}'""".format(author))
-    
+
     print(author)
     print("-"*124)
-    
+
     print("| {:<5} | {:<35} | {:<25} | {:<10} | {}".format(
         "id", "title", "genre", "publisher", "year"))
     print("-"*124)
@@ -32,7 +28,7 @@ def list_books_from_author(cursor, author):
             book_id, title, genre, publisher, year))
 
 
-def average_rating_book(cursor, book):    
+def average_rating_book(cursor, book):
     cursor.execute(
         """SELECT books.title, AVG(reviews.rating) 
            FROM books 
@@ -40,14 +36,54 @@ def average_rating_book(cursor, book):
            WHERE title='{}'""".format(book))
 
     print("-"*60)
-    
+
     for (title, rating) in cursor:
         if title == None:
             print("The book does not exist!")
             return
         print("{} has an average rating of {}".format(title, round(rating, 1)))
-    
-        
+
+
+def average_rating_writer(cursor, author):
+    cursor.execute(
+        """SELECT books.author, AVG(reviews.rating) 
+           FROM books 
+           JOIN reviews on books.book_id = reviews.book_id 
+           WHERE author='{}'""".format(author))
+
+    print("-"*60)
+
+    for (author, rating) in cursor:
+        if author == None:
+            print("The author does not exist!")
+            return
+        print("{} has an average rating of {}".format(author, round(rating, 1)))
+
+
+def most_popular_book(cursor, city):
+    cursor.execute(
+        """          
+            SELECT 
+                books.title,
+                AVG(reviews.rating) as avg
+            FROM
+                books
+            JOIN reviews
+                ON books.book_id = reviews.book_id
+            JOIN members
+                ON reviews.member_id = members.member_id
+            WHERE city = '{}'
+            GROUP BY books.title
+            ORDER BY avg DESC
+            LIMIT 1
+        """.format(city))
+
+    print("-"*60)
+
+    for (rating) in cursor:
+        print("{}".format(rating[0]))
+
+
 # def books_by_year(cursor):
 #     cursor.execute(
 #         "SELECT title, year from books WHERE year > 2015 ORDER BY year DESC")
