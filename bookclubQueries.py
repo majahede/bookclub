@@ -112,7 +112,7 @@ def list_member_by_reviews(cursor):
            FROM reviews
            JOIN members on reviews.member_id = members.member_id
            GROUP BY reviews.member_id
-           Order BY COUNT(reviews.rating) DESC 
+           ORDER BY COUNT(reviews.rating) DESC 
            """)
 
     print("-"*60)

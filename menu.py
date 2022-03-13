@@ -35,11 +35,11 @@ def print_menu():
     print("\n[1] List all books")
     print("[2] List all books from specific author")
     print("[3] Average rating for book")
-    print("[4] Average rating for writer")
+    print("[4] Average rating for author")
     print("[5] Most popular book in city")
     print("[6] List all members by books reviewed")
     print("[7] See all books you have reviewed")
-    print("[8] List books from author (view)")
+    print("[8] List books from author only showing title and year")
     print("\n[Q] Quit")
 
 
